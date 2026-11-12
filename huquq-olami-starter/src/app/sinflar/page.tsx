@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function Classes(){return <main className="container"><div className="page-title"><h1>Sinflar</h1><p className="muted">O‘zingizga mos sinfni tanlang.</p></div><div className="grid3">{[8,9,11].map(g=><Link className="card" href={`/sinflar/${g}`} key={g}><span className="grade">{g}-SINF</span><h3>{g}-sinf Huquq</h3><p>2-chorak uchun darslar, atamalar va bilimni mustahkamlash topshiriqlari.</p><div className="card-foot">Bo‘limga o‘tish →</div></Link>)}</div></main>}
