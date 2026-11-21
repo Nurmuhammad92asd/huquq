@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
-// Savol turi
 type Q = {
   id: string;
   question: string;
@@ -16,7 +15,6 @@ export default function QuizPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
-  // Holatlar (States)
   const [questions, setQuestions] = useState<Q[]>([]);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -25,7 +23,6 @@ export default function QuizPage() {
   const [saved, setSaved] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Savollarni yuklash
   useEffect(() => {
     async function load() {
       const { data, error } = await supabase
@@ -47,13 +44,11 @@ export default function QuizPage() {
   const score = questions.filter((q) => answers[q.id] === q.correct_index).length;
   const percent = questions.length ? (score / questions.length) * 100 : 0;
 
-  // NATIJANI SAQLASH HARAKATI (Serverga yuborish)
   async function saveResult() {
     setSaving(true);
     setErrorMsg('');
 
     try {
-      // 1. Foydalanuvchini tekshirish
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
@@ -62,7 +57,6 @@ export default function QuizPage() {
         return;
       }
 
-      // 2. Bazaga yuborish
       const { error } = await supabase.from('results').insert({
         student_id: user.id,
         quiz_id: id,
@@ -73,14 +67,25 @@ export default function QuizPage() {
 
       if (error) throw error;
 
-      // 3. Muvaffaqiyatli saqlansa
       setSaved(true);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Saqlashda xatolik yuz berdi');
+    } catch (err: unknown) {
+      // Xatoni xavfsiz ushlash (any o'rniga unknown)
+      if (err instanceof Error) {
+        setErrorMsg(err.message);
+      } else {
+        setErrorMsg("Saqlashda noma'lum xatolik yuz berdi");
+      }
     } finally {
       setSaving(false);
     }
   }
+
+  // Deno uchun window o'rniga globalThis ishlatamiz
+  const scrollToTop = () => {
+    if (typeof globalThis !== 'undefined' && globalThis.scrollTo) {
+      globalThis.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   if (loading) {
     return <p className="text-center py-10 text-gray-500">Savollar yuklanmoqda...</p>;
@@ -106,7 +111,6 @@ export default function QuizPage() {
         </span>
       </div>
 
-      {/* Savollar ro'yxati */}
       {questions.map((q, i) => (
         <div key={q.id} className="bg-white border rounded-xl p-5 shadow-sm">
           <p className="font-semibold text-lg mb-4">
@@ -155,14 +159,12 @@ export default function QuizPage() {
         </div>
       ))}
 
-      {/* Xatolik xabari */}
       {errorMsg && (
         <div className="p-4 bg-red-100 text-red-700 rounded-xl border border-red-200">
           ⚠️ {errorMsg}
         </div>
       )}
 
-      {/* Pastki harakat tugmalari */}
       {!submitted ? (
         <button
           onClick={() => {
@@ -170,7 +172,7 @@ export default function QuizPage() {
               if (!confirm('Ba\'zi savollarga javob bermadingiz. Baribir tekshirilsinmi?')) return;
             }
             setSubmitted(true);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            scrollToTop();
           }}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold text-lg transition shadow-lg"
         >
@@ -194,7 +196,7 @@ export default function QuizPage() {
                 setAnswers({});
                 setSubmitted(false);
                 setSaved(false);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                scrollToTop();
               }}
               className="px-6 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition"
             >
