@@ -1,0 +1,209 @@
+
+@import "tailwindcss";
+
+/* ==============================
+   HUQUQ OLAMI — GLOBAL DESIGN
+============================== */
+
+:root {
+  --background: #071426;
+  --foreground: #ffffff;
+  --primary: #fbbf24;
+  --secondary: #10243c;
+  --muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: #fbbf24;
+  color: #071426;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #071426;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fbbf24;
+}
+
+/* Container */
+
+.container {
+  width: min(100% - 40px, 1280px);
+  margin-inline: auto;
+}
+
+/* Glass effect */
+
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Premium cards */
+
+.premium-card {
+  background: linear-gradient(
+    145deg,
+    #142b46,
+    #0b192b
+  );
+  border: 1px solid rgba(251, 191, 36, 0.15);
+  border-radius: 24px;
+  transition: all 0.3s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Gold gradient */
+
+.gold-text {
+  background: linear-gradient(
+    90deg,
+    #fef3c7,
+    #fbbf24,
+    #d97706
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.gold-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fcd34d, #f59e0b);
+  color: #071426;
+  font-weight: 800;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.gold-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(251, 191, 36, 0.2);
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.7s ease both;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Focus */
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .container {
+    width: min(100% - 28px, 1280px);
+  }
+
+  h1 {
+    line-height: 1.15;
+  }
+
+  button,
+  .gold-button {
+    max-width: 100%;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
