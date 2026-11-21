@@ -44,7 +44,7 @@ export default function QuizPage() {
   const score = questions.filter((q) => answers[q.id] === q.correct_index).length;
   const percent = questions.length ? (score / questions.length) * 100 : 0;
 
-  // Deno xatosini tuzatish: window o'rniga globalThis
+  // Deno uchun window o'rniga globalThis ishlatamiz
   const scrollToTop = () => {
     if (typeof globalThis !== 'undefined' && globalThis.scrollTo) {
       globalThis.scrollTo({ top: 0, behavior: 'smooth' });
@@ -171,7 +171,7 @@ export default function QuizPage() {
               if (!confirm('Ba\'zi savollarga javob bermadingiz. Baribir tekshirilsinmi?')) return;
             }
             setSubmitted(true);
-            scrollToTop(); // window o'rniga funksiya
+            scrollToTop();
           }}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold text-lg transition shadow-lg"
         >
@@ -195,7 +195,7 @@ export default function QuizPage() {
                 setAnswers({});
                 setSubmitted(false);
                 setSaved(false);
-                scrollToTop(); // window o'rniga funksiya
+                scrollToTop();
               }}
               className="px-6 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition"
             >
